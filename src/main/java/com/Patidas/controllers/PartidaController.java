@@ -18,7 +18,7 @@ import com.Patidas.repository.PartidaRepository;
 
 @Controller
 @RequestMapping("/partida")
-public class PartidaControler {
+public class PartidaController {
 	
 	@Autowired
 	private PartidaRepository partidaRepository;
