@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-	crossorigin="anonymous">
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+		crossorigin="anonymous">
+		
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css" />
 
 <title>Partidas</title>
 </head>
@@ -18,53 +20,92 @@
 	<nav class="navbar navbar-expand-sm bg-dark">
 		
 	  <!-- Links -->
-	  <ul class="navbar-nav">
+	  <ul class="navbar-nav mr-auto">
 	  	<li>
-	    	<h3>Gerenciador de Partidas</h3>
-	    </li>
-	    <li>
-	    	
+	    	<h3 style="color: white;">Gerenciador de Partidas</h3>
 	    </li>
 	  </ul>
-	  
-	  <a class="btn btn-lg btn-success float-right" href="/partida/index">Listar Partidas</a>
-	
+	  <ul class="navbar-nav float-right">
+	  	<li>
+	    	<a class="btn btn-lg btn-success" href="/partida/index">Listar Partidas</a>
+	    </li>
+	  </ul>
 	</nav>
-
-	<div th:each="partida : ${partida}" class="container">
-		<div class="row">
-			<p>Nome: <span th:text="${partida.titulo}"></span></p>
-			<p>Data: <span th:text="${#dates.format(partida.data, 'dd/MM/yyyy')}"></span></p>
-			<p>Mapa: <span th:text="${partida.nomeMapa()}"></span></p>
+	
+	<div class="container my-3">
+		<div class="card">
+			<div class="card-header bg-primary" style="text-align: center">
+				<h3 style="color:white;"><span th:text="${partida.titulo}"></span></h3>
+			</div>
+			<div class="card-body" style="text-align: center">
+				<div class="row">
+					<div class="col-6">
+						<h5>Data: <span th:text="${#dates.format(partida.data,'dd/MM/yyyy')}"></span></h5>
+					</div>
+					<div class="col-6">
+						<h5>Mapa: <span th:text="${partida.nomeMapa()}"></span></h5>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	
-	<div class="container ">
+	<br/>
+	
+	<div class="container my-3" >
 		<form method="post">
-			Nome *: <input type="text" value="" name="nome"/>
-			<label for="posicao">Posição *</label>
-			<select id="posicao" name="posicao">
-				<option value=0>SELECIONE</option>
-				<option th:each="posicao : ${T(com.Partidas.models.Posicao).posicoes()}" th:value="${posicao}" th:text="${T(com.Partidas.models.Posicao).getNome(posicao)}"></option>
-			</select>
-			<button class="btn btn-primary" type="submit">Adicionar</button>
+			<div class="row">
+			<div class="col-6">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="nome">Nome</span>
+					</div>
+					<input type="text" class="form-control" aria-label="Nome" aria-describedby="nome" name="nome">
+				</div>
+			</div>
+				
+				<div class="col-6" style="text-align: left;">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="posicao">Posição</label>
+						</div>
+						<select class="custom-select" id="posicao" name="posicao">
+							<option value=0>SELECIONE</option>
+							<option th:each="posicao : ${T(com.Partidas.models.Posicao).posicoes()}" th:value="${posicao}" th:text="${T(com.Partidas.models.Posicao).getNome(posicao)}"></option>
+						</select>
+						<button class="btn btn-primary" type="submit" title="Adicionar"><i class="fas fa-plus"></i></button>
+					</div>
+					
+				</div>
+			</div>
 		</form>
+	</div>
+		
+	<div class="container my-3" th:if="${not #lists.isEmpty(jogadores)}">
+		<div class="card">
+			<div class="card-header bg-primary">
+				<h4 style="color:white;">Jogadores</h4>
+			</div>
+			<div class="card-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Nome</th>
+							<th scope="col">Posição</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="jogador : ${jogadores}">
+							<td><span th:text="${jogador.nome}"></span></td>
+							<td><span th:text="${jogador.nomePosicao()}"></span></td>
+							<td><a th:href="@{/partida/removerJogador/{idPartida}/{idJogador}(idPartida=${partida.id},idJogador=${jogador.id})}"><i class="fas fa-trash-alt"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
-
-		<table class="container">
-			<thead>
-				<tr>
-					<th>Nome</th>
-					<th>Posição</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="jogador : ${jogadores}">
-					<td><span th:text="${jogador.nome}"></span></td>
-					<td><span th:text="${jogador.nomePosicao()}"></span></td>
-				</tr>
-			</tbody>
-		</table>
+	</div>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

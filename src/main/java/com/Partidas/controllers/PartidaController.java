@@ -98,7 +98,7 @@ public class PartidaController {
 	}
 	
 	@RequestMapping("/removerJogador/{idPartida}/{idJogador}")
-	public String removerJogador(@PathVariable Long idPartida, Long idJogador) {
+	public String removerJogador(@PathVariable Long idPartida, @PathVariable Long idJogador) {
 		Jogador jogador = jogadorRepository.findJogadorById(idJogador);
 		
 		Partida partida = partidaRepository.findPartidaById(idPartida);
