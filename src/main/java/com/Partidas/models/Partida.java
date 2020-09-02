@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -22,14 +22,14 @@ public class Partida {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@NotEmpty
+	@NotBlank(message = "Título inválido!")
 	private String titulo;
 	
-	@NotNull
+	@NotNull(message = "Data inválida!")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date data;
 	
-	@NotNull
+	@NotNull(message = "Mapa inválido!")
 	private Integer mapa;
 	
 	@ManyToMany

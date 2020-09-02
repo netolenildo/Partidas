@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt"
+		xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:th="http://thymeleaf.org">
+<head>
+
+</head>	
+<body>
+	<div class="alert alert-danger" th:each="erro : ${erros}" th:if="${not #lists.isEmpty(erros)}" style="text-align: center;">
+		<span th:text="${erro}"></span>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	
+	<div class="alert alert-success" th:if="${not #strings.isEmpty(sucesso)}" style="text-align: center;">
+		<span th:text="${sucesso}"></span>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+</body>						
+</html>
